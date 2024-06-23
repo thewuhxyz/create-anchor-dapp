@@ -4,9 +4,10 @@
 		"outDir": "./dist",
 		"rootDir": ".",
 		"target": "ES2022",
+		"module": "ES2022",
 		"moduleResolution": "node",
 		"lib": ["dom", "es2019"],
 		"types": ["node"]
 	},
-	"include": ["bin"]
+	"include": ["src", "tsup.config.ts"]
 }

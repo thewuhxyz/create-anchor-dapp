@@ -1,5 +1,0 @@
-{
-	"watch": ["bin"],
-	"ext": "ts,json",
-	"exec": "npm run build:copy"
-}

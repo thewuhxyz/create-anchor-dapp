@@ -3,12 +3,13 @@ import { program } from "@commander-js/extra-typings"
 import fs from "fs-extra"
 import path from "path"
 import { fileURLToPath } from "url"
+import { getUserPkgManager } from "./helpers"
 
 const __filename = fileURLToPath(import.meta.url)
 console.log("fileName:", __filename)
 const binPath = path.dirname(__filename)
 console.log("bin path:", binPath)
-const distPath = path.join(binPath, "../")
+const distPath = path.join(binPath, "../../")
 console.log("dist path:", distPath)
 
 
@@ -29,6 +30,9 @@ program
 		console.log("creating app at ", name, "...")
 		const projectDir = path.resolve(process.cwd(), name)
 		const srcDir = path.join(distPath, "template/base")
+
+		const pkg = getUserPkgManager()
+		console.log("package manager:", pkg)
 
 		console.log("project dir:", projectDir)
 		console.log("src dir:", srcDir)
