@@ -6,15 +6,7 @@
 		"dev": "turbo dev",
 		"start": "turbo start",
 		"lint": "turbo lint",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
-		"program-build:all": "pnpm program-build ido && pnpm program-build loyalty",
-		"program-build": "pnpm exec just build",
-		"program-close": "pnpm exec just close",
-		"program-deploy": "pnpm exec just deploy",
-		"program-recover": "pnpm exec just recover",
-		"program-redeploy": "pnpm exec just redeploy",
-		"program-test": "pnpm exec just test",
-		"program-test:all": "pnpm exec just test-all"
+		"format": "prettier --write \"**/*.{ts,tsx,md}\""
 	},
 	"devDependencies": {
 		"just-install": "2.0.1",
