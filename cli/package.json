@@ -1,29 +1,43 @@
 {
-  "name": "@caapp/cli",
-  "version": "0.0.1",
-  "license": "MIT",
-  "repository": "thewuhxyz/create-anchor-app",
-  "homepage": "https://github.com/thewuhxyz/create-anchor-app",
-  "description": "Scaffold for building apps on Solana with Anchor framework",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc",
-    "prepare": "pnpm build",
-    "dev": "pnpx ts-node src/bin/index.ts",
-    "start": "pnpm build && node dist/bin/index.js --help"
-  },
-  "bin": {
-    "create-anchor-app": "dist/bin/index.js"
-  },
-  "dependencies": {
-    "@commander-js/extra-typings": "^12.1.0",
-    "@coral-xyz/anchor": "^0.30.1",
-    "@solana/web3.js": "^1.93.1",
-    "commander": "^12.1.0",
-    "winston": "^3.13.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20.14.8",
-    "ts-node": "^10.9.2"
-  }
+	"name": "@caapp/cli",
+	"version": "0.0.1",
+	"license": "MIT",
+	"repository": "thewuhxyz/create-anchor-app",
+	"homepage": "https://github.com/thewuhxyz/create-anchor-app",
+	"description": "Scaffold for building apps on Solana with Anchor framework",
+	"main": "dist/bin/index.js",
+	"type": "module",
+	"scripts": {
+		"build": "tsc",
+		"dev": "node dist/bin/index.js",
+		"start": "pnpm build && node dist/bin/index.js  --help",
+		"clean": "rm -rf dist",
+		"bin:link": "pnpm link --global",
+		"bin:unlink": "pnpm uninstall --global @caapp/cli",
+		"copy-templates": "cp -r ./template ./dist/template",
+		"build:copy": "pnpm build && pnpm copy-templates",
+		"watch": "nodemon"
+	},
+	"bin": {
+		"create-anchor-app": "dist/bin/index.js"
+	},
+	"dependencies": {
+		"@commander-js/extra-typings": "^12.1.0",
+		"@coral-xyz/anchor": "^0.30.1",
+		"@solana/web3.js": "^1.93.1",
+		"commander": "^12.1.0",
+		"fs-extra": "^11.2.0",
+		"winston": "^3.13.0"
+	},
+	"devDependencies": {
+		"@types/chai": "^4.3.16",
+		"@types/fs-extra": "^11.0.4",
+		"@types/mocha": "^10.0.7",
+		"@types/node": "^20.14.8",
+		"chai": "^5.1.1",
+		"mocha": "^10.4.0",
+		"ncp": "^2.0.0",
+		"nodemon": "^3.1.4",
+		"ts-node": "^10.9.2"
+	}
 }

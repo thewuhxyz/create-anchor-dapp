@@ -1,0 +1,26 @@
+build program:
+    anchor build -p {{program}}
+
+deploy program:
+    just build {{program}}
+    anchor deploy -p {{program}}
+    cp -v ./target/idl/{{program}}.json ./protocol/ts/src/idl/{{program}}.json
+    cp -v ./target/types/{{program}}.ts ./protocol/ts/src/idl/{{program}}.ts
+
+test program:
+    pnpm -dir=$(pwd)/protocol anchor-run {{program}}
+
+test-all:
+    pnpm -dir=$(pwd)/protocol anchor-test
+
+recover program:
+    solana-keygen recover -o ./target/deploy/intermediate-deploy-{{program}}.json -f
+
+redeploy program:
+    solana program deploy --buffer ./target/deploy/intermediate-deploy-{{program}}.json --program-id ./target/deploy/{{program}}-keypair.json  ./target/deploy/{{program}}.so -v
+
+extend program amount:
+    solana program extend ./target/deploy/{{program}}-keypair.json {{amount}}
+
+close program:
+    solana program close -k ~/.config/solana/deployer.json ./target/deploy/intermediate-deploy-{{program}}.json
