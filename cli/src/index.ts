@@ -1,58 +1,94 @@
 #!/usr/bin/env node
 import { program } from "@commander-js/extra-typings"
-import fs from "fs-extra"
-import path from "path"
 import {
-	addName,
-	addScripts,
-	addWorkspace,
 	getUserPkgManager,
 	getInstalledSolanaVersion,
 	getInstalledAnchorVersion,
-	setVersion,
 } from "./utils"
 import {
 	DEFAULT_ANCHOR_VERSION,
+	DEFAULT_APP_NAME,
 	DEFAULT_SOLANA_VERSION,
-	PKG_ROOT,
 } from "./constants"
+import * as p from "@clack/prompts"
+import { scaffold } from "./configure"
+import ora from "ora"
 
-program
-	.name("create-anchor-app")
-	.description("Scaffold an Solana project with Anchor")
-	.version("0.0.1")
+async function main() {
+	program
+		.name("create-anchor-app")
+		.description("Scaffold an Solana project with Anchor")
+		.version("0.0.1")
 
-program.argument("<name>").action(async (name) => {
-	console.log("creating anchor app.....")
+	program.argument("[dir]", "project name")
 
-	const projectDir = path.resolve(process.cwd(), name)
+	program.parse()
 
-	const baseDir = path.join(PKG_ROOT, "template/base")
-	const addonsDir = path.join(PKG_ROOT, "template/add-ons")
+	const name = program.args[0]
 
-	const pkg = getUserPkgManager()
-	console.log("package manager:", pkg)
+	const pkgManager = getUserPkgManager()
+	const solanaVersion = getInstalledSolanaVersion()
+	const anchorVersion = getInstalledAnchorVersion()
 
-	fs.copySync(baseDir, projectDir)
+	const userPreferences = await p.group(
+		{
+			...(!name && {
+				name: () =>
+					p.text({
+						message: `💼 Project name? (default: ${DEFAULT_APP_NAME})`,
+						defaultValue: DEFAULT_APP_NAME,
+					}),
+			}),
+			pkg: () =>
+				p.select({
+					message: `👔 Package manager? (${pkgManager ? `current: ${pkgManager}` : "npm"})`,
+					options: [
+						{ value: "npm", label: "npm" },
+						{ value: "yarn", label: "yarn" },
+						{ value: "pnpm", label: "pnpm" },
+					],
+					initialValue: pkgManager,
+				}),
+			solanaVersion: () =>
+				p.text({
+					message: `☀️ Solana version? (${solanaVersion ? `current: ${solanaVersion}` : `default: ${DEFAULT_SOLANA_VERSION}`})`,
+					defaultValue: solanaVersion ?? DEFAULT_SOLANA_VERSION,
+				}),
+			anchorVersion: () =>
+				p.text({
+					message: `⚓️ Anchor version? (${anchorVersion ? `current: ${anchorVersion}` : `default: ${DEFAULT_ANCHOR_VERSION}`})`,
+					defaultValue: anchorVersion ?? DEFAULT_ANCHOR_VERSION,
+				}),
+			ui: () =>
+				p.select({
+					message: `🖥️ UI?`,
+					options: [
+						{ value: "none", label: "None (for now 😭)" },
+						// { value: "react", label: "React" },
+						// { value: "nextjs", label: "Next.JS" },
+					],
+					initialValue: "none",
+				}),
+		},
+		{
+			onCancel() {
+				process.exit(1)
+			},
+		}
+	)
 
-	if (pkg === "pnpm") {
-		const srcPath = path.join(addonsDir, "package-manager/pnpm-workspace.yaml")
-		const destPath = path.join(projectDir, "pnpm-workspace.yaml")
-		fs.copyFileSync(srcPath, destPath)
-	} else {
-		addWorkspace({ projectDir })
+	const config = {
+		...userPreferences,
+		name: name ?? userPreferences.name,
 	}
 
-	addScripts({ projectDir, pkg })
+	scaffold(config)
+	ora(`Anchor app created! Kipp Buidling 🫡`).succeed()
+}
 
-	addName({ projectDir, name })
-
-	const solanaVersion = getInstalledSolanaVersion() ?? DEFAULT_SOLANA_VERSION
-	const anchorVersion = getInstalledAnchorVersion() ?? DEFAULT_ANCHOR_VERSION
-
-	setVersion({ projectDir, anchorVersion, solanaVersion })
-
-	console.log("created anchor app.")
-})
-
-program.parse()
+main()
+	.then(() => process.exit(0))
+	.catch((err) => {
+		console.error(err)
+		process.exit(1)
+	})

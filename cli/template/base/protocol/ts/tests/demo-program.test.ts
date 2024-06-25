@@ -5,10 +5,9 @@ import { sleep } from "./helpers"
 import { assert } from "chai"
 
 describe("ido", () => {
-	// Configure the client to use the local cluster.
 	const provider = anchor.AnchorProvider.env()
 
-	//@ts-ignore
+	//@ts-ignore: you should remove this comment
 	const program = anchor.workspace.DemoProgram as anchor.Program<DemoProgram>
 
 	const user = anchor.web3.Keypair.generate()
@@ -49,7 +48,7 @@ describe("ido", () => {
 
 		await sleep(3)
 
-		//@ts-ignore
+		//@ts-ignore: you should remove this comment
 		const counter = await program.account.counter.fetch(counterPda)
 
 		console.log("👉 counter:", JSON.parse(JSON.stringify(counter)))
@@ -85,7 +84,7 @@ describe("ido", () => {
 
 		await sleep(3)
 
-		//@ts-ignore
+		//@ts-ignore: you should remove this comment
 		const counter = await program.account.counter.fetch(counterPda)
 
 		console.log("👉 counter:", JSON.parse(JSON.stringify(counter)))
