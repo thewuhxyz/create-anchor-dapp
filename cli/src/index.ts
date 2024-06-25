@@ -2,35 +2,36 @@
 import { program } from "@commander-js/extra-typings"
 import fs from "fs-extra"
 import path from "path"
-import { fileURLToPath } from "url"
-import { addName, addScripts, addWorkspace, getUserPkgManager } from "./utils"
-
-const __filename = fileURLToPath(import.meta.url)
-console.log("fileName:", __filename)
-
-const binPath = path.dirname(__filename)
-console.log("bin path:", binPath)
-
-const distPath = path.join(binPath, "../../")
-console.log("dist path:", distPath)
+import {
+	addName,
+	addScripts,
+	addWorkspace,
+	getUserPkgManager,
+	getInstalledSolanaVersion,
+	getInstalledAnchorVersion,
+	setVersion,
+} from "./utils"
+import {
+	DEFAULT_ANCHOR_VERSION,
+	DEFAULT_SOLANA_VERSION,
+	PKG_ROOT,
+} from "./constants"
 
 program
 	.name("create-anchor-app")
 	.description("Scaffold an Solana project with Anchor")
 	.version("0.0.1")
 
-program.argument("<name>").action((name) => {
+program.argument("<name>").action(async (name) => {
 	console.log("creating anchor app.....")
 
 	const projectDir = path.resolve(process.cwd(), name)
-	const baseDir = path.join(distPath, "template/base")
-	const addonsDir = path.join(distPath, "template/add-ons")
+
+	const baseDir = path.join(PKG_ROOT, "template/base")
+	const addonsDir = path.join(PKG_ROOT, "template/add-ons")
 
 	const pkg = getUserPkgManager()
 	console.log("package manager:", pkg)
-
-	console.log("project dir:", projectDir)
-	console.log("src dir:", baseDir)
 
 	fs.copySync(baseDir, projectDir)
 
@@ -46,7 +47,12 @@ program.argument("<name>").action((name) => {
 
 	addName({ projectDir, name })
 
-	console.log("created anchor app")
+	const solanaVersion = getInstalledSolanaVersion() ?? DEFAULT_SOLANA_VERSION
+	const anchorVersion = getInstalledAnchorVersion() ?? DEFAULT_ANCHOR_VERSION
+
+	setVersion({ projectDir, anchorVersion, solanaVersion })
+
+	console.log("created anchor app.")
 })
 
 program.parse()

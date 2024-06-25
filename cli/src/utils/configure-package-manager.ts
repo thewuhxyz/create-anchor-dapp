@@ -49,11 +49,15 @@ export const addScripts = (opts: {
 		path.join(projectDir, "package.json")
 	) as PackageJson
 
-	programScripts.forEach((script) => {
-		if (pkgJson.scripts) {
-			pkgJson.scripts[`program:${script}`] = `${exec[pkg]} just ${script}`
-		}
-	})
+	// programScripts.forEach((script) => {
+	// 	if (pkgJson.scripts) {
+	// 		pkgJson.scripts[`program:${script}`] = `${exec[pkg]} just ${script}`
+	// 	}
+	// })
+
+	if (pkgJson.scripts) {
+		pkgJson.scripts["program"] = `${exec[pkg]} just`
+	}
 	const sortedPkgJson = sortPackageJson(pkgJson)
 
 	fs.writeJSONSync(path.join(projectDir, "package.json"), sortedPkgJson, {
@@ -95,15 +99,15 @@ export const addName = (opts: { projectDir: string; name: string }) => {
 	)
 }
 
-const programScripts = [
-	"build",
-	"close",
-	"deploy",
-	"recover",
-	"redeploy",
-	"test",
-	"test-all",
-]
+// const programScripts = [
+// 	"build",
+// 	"close",
+// 	"deploy",
+// 	"recover",
+// 	"redeploy",
+// 	"test",
+// 	"test-all",
+// ]
 
 const exec: Record<PackageManager, string> = {
 	npm: "npx",
