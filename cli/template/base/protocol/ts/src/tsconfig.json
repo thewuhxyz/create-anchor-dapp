@@ -1,0 +1,10 @@
+{
+	"extends": "../../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "../../dist/esm/",
+		"rootDir": ".",
+		"resolveJsonModule": true,
+		"esModuleInterop": true
+	},
+	"include": ["./**/*", "./idl/*.json"]
+}

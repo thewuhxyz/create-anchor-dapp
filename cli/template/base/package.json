@@ -1,0 +1,16 @@
+{
+	"name": "name",
+	"private": true,
+	"scripts": {
+		"build": "turbo build",
+		"dev": "turbo dev",
+		"start": "turbo start",
+		"lint": "turbo lint",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\""
+	},
+	"devDependencies": {
+		"just-install": "2.0.1",
+		"prettier": "^3.2.5",
+		"turbo": "^1.13.2"
+	}
+}
