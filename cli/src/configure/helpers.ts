@@ -3,13 +3,9 @@ import fs from "fs-extra"
 import sortPackageJson from "sort-package-json"
 import { type PackageJson } from "type-fest"
 import { parse, stringify } from "smol-toml"
-import {
-	PackageManager,
-	execCommand,
-	packageName,
-	programCommand,
-} from "../utils"
+import { execCommand, getPkgManagerVersion, packageName, programCommand } from "../utils"
 import semverGte from "semver/functions/gte.js"
+import { PackageManager } from "../types"
 
 export function configureRootPackageJson(opt: {
 	projectDir: string
@@ -34,6 +30,8 @@ export function configureRootPackageJson(opt: {
 	if (pkg !== "pnpm") {
 		pkgJson.workspaces = ["app", "protocol"]
 	}
+
+	pkgJson.packageManager = getPkgManagerVersion(pkg)
 
 	const sortedPkgJson = sortPackageJson(pkgJson)
 
@@ -107,7 +105,7 @@ export function configureProtocolCargoToml(opts: {
 	fs.writeFileSync(cargoTomlPath, stringify(programCargoToml))
 }
 
-export function addPnpmWorksapce(opts: {
+export function addPnpmWorkspace(opts: {
 	projectDir: string
 	addonsDir: string
 	pkg: PackageManager

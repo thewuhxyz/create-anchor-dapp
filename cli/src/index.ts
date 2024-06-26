@@ -39,16 +39,7 @@ async function main() {
 						defaultValue: DEFAULT_APP_NAME,
 					}),
 			}),
-			pkg: () =>
-				p.select({
-					message: `👔 Package manager? (${pkgManager ? `current: ${pkgManager}` : "npm"})`,
-					options: [
-						{ value: "npm", label: "npm" },
-						{ value: "yarn", label: "yarn" },
-						{ value: "pnpm", label: "pnpm" },
-					],
-					initialValue: pkgManager,
-				}),
+
 			solanaVersion: () =>
 				p.text({
 					message: `☀️ Solana version? (${solanaVersion ? `current: ${solanaVersion}` : `default: ${DEFAULT_SOLANA_VERSION}`})`,
@@ -69,6 +60,21 @@ async function main() {
 					],
 					initialValue: "none",
 				}),
+			pkg: () =>
+				p.select({
+					message: `👔 Package manager? (current: ${pkgManager})`,
+					options: [
+						{ value: "npm", label: "npm" },
+						{ value: "yarn", label: "yarn" },
+						{ value: "pnpm", label: "pnpm" },
+					],
+					initialValue: pkgManager,
+				}),
+			install: () =>
+				p.confirm({
+					message: `🪡 Install Dependencies? (default: Yes)`,
+					initialValue: true,
+				}),
 		},
 		{
 			onCancel() {
@@ -82,7 +88,8 @@ async function main() {
 		name: name ?? userPreferences.name,
 	}
 
-	scaffold(config)
+	await scaffold(config)
+
 	ora(`Anchor app created! Kipp Buidling 🫡`).succeed()
 }
 

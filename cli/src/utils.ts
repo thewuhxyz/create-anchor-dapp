@@ -1,4 +1,5 @@
 import { execaSync } from "execa"
+import { PackageManager } from "./types"
 
 export function getInstalledSolanaVersion() {
 	const { stdout } = execaSync`solana --version`
@@ -12,9 +13,8 @@ export function getInstalledAnchorVersion() {
 	return stdout.split(" ")[1] ?? null
 }
 
-export function getUserPkgManager(): PackageManager {
+export function getUserPkgManager(fallback?: PackageManager): PackageManager {
 	const userAgent = process.env.npm_config_user_agent
-  console.log("user agent:", userAgent)
 	if (userAgent) {
 		if (userAgent.startsWith("yarn")) {
 			return "yarn"
@@ -24,13 +24,12 @@ export function getUserPkgManager(): PackageManager {
 			return "npm"
 		}
 	} else {
-		return "npm"
+		return fallback ?? "npm"
 	}
 }
 
 export function getPkgManagerVersion(pkg: PackageManager) {
 	const { stdout: version } = execaSync`${pkg} --version`
-	console.log("pkg version:", version)
 	return `${pkg}@${version}`
 }
 
@@ -44,16 +43,6 @@ export function packageName(root: string, workspace: string) {
 	return `@${root}/${workspace}`
 }
 
-export type PackageManager = "npm" | "pnpm" | "yarn"
-
-export type ProjectConfig = {
-	pkg: PackageManager
-	solanaVersion: string
-	anchorVersion: string
-	ui: string
-	name: string
-}
-
 export const programCommand = [
 	"build",
 	"close",
@@ -64,6 +53,3 @@ export const programCommand = [
 	"test-all",
 ]
 
-export function versionGreaterThan(first: string, second: string) {
-  
-}
