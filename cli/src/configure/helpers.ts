@@ -3,7 +3,12 @@ import fs from "fs-extra"
 import sortPackageJson from "sort-package-json"
 import { type PackageJson } from "type-fest"
 import { parse, stringify } from "smol-toml"
-import { execCommand, getPkgManagerVersion, packageName, programCommand } from "../utils"
+import {
+	execCommand,
+	getPkgManagerVersion,
+	packageName,
+	programCommand,
+} from "../utils"
 import semverGte from "semver/functions/gte.js"
 import { PackageManager } from "../types"
 
@@ -65,8 +70,9 @@ export function configureRootAnchorToml(opts: {
 	projectDir: string
 	solanaVersion: string
 	anchorVersion: string
+	programId: string
 }) {
-	const { projectDir, solanaVersion, anchorVersion } = opts
+	const { projectDir, solanaVersion, anchorVersion, programId } = opts
 
 	const anchorTomlPath = path.join(projectDir, "Anchor.toml")
 
@@ -76,6 +82,8 @@ export function configureRootAnchorToml(opts: {
 
 	anchorToml.toolchain["anchor_version"] = anchorVersion
 	anchorToml.toolchain["solana_version"] = solanaVersion
+
+	anchorToml.programs["localnet"]["demo_program"] = programId
 
 	fs.writeFileSync(anchorTomlPath, stringify(anchorToml))
 }
@@ -121,4 +129,65 @@ export function addPnpmWorkspace(opts: {
 export function copyBaseTemplate(opt: { baseDir: string; projectDir: string }) {
 	const { projectDir, baseDir } = opt
 	fs.copySync(baseDir, projectDir)
+}
+
+export function configureLibrs(opts: {
+	projectDir: string
+	programId: string
+}) {
+	const { projectDir, programId } = opts
+
+	const rs = `
+pub mod constants;
+pub mod error;
+pub mod instructions;
+pub mod state;
+
+use anchor_lang::prelude::*;
+use instructions::*;
+
+declare_id!("${programId}");
+
+#[program]
+pub mod demo_program {
+
+    use super::*;
+
+    pub fn create_counter(ctx: Context<CreateCounter>) -> Result<()> {
+        instructions::create_counter(ctx)
+    }
+
+    pub fn increment_count(ctx: Context<IncrementCount>) -> Result<()> {
+        instructions::increment_count(ctx)
+    }
+}
+
+	`
+
+	const librsPath = path.join(
+		projectDir,
+		"protocol/programs/demo-program/src",
+		"lib.rs"
+	)
+
+	const dir = path.dirname(librsPath)
+	fs.mkdirSync(dir, { recursive: true })
+	fs.writeFileSync(librsPath, rs, "utf8")
+}
+
+export function copyProgramKeypairJsonToFile(opts: {
+	projectDir: string
+	keypairJson: string
+}) {
+	const { projectDir, keypairJson } = opts
+
+	const keypairFilePath = path.join(
+		projectDir,
+		"target/deploy/demo_program-keypair.json"
+	)
+
+	const dir = path.dirname(keypairFilePath)
+	fs.mkdirSync(dir, { recursive: true })
+
+	fs.writeFileSync(keypairFilePath, keypairJson, "utf8")
 }

@@ -1,5 +1,5 @@
 {
-	"name": "@caapp/cli",
+	"name": "@caapp/create-anchor-app",
 	"version": "0.0.1",
 	"license": "MIT",
 	"repository": "thewuhxyz/create-anchor-app",
@@ -13,7 +13,7 @@
 		"start": "pnpm build && node dist/bin/index.js  --help",
 		"clean": "rm -rf dist",
 		"bin:link": "pnpm link --global",
-		"bin:unlink": "pnpm uninstall --global @caapp/cli",
+		"bin:unlink": "pnpm uninstall --global @caapp/create-anchor-app",
 		"check": "tsc",
 		"watch": "pnpm clean && tsup --watch"
 	},
@@ -29,6 +29,7 @@
 	"dependencies": {
 		"@clack/prompts": "^0.7.0",
 		"@commander-js/extra-typings": "^12.1.0",
+		"@solana/web3.js": "^1.93.1",
 		"commander": "^12.1.0",
 		"execa": "^9.3.0",
 		"fs-extra": "^11.2.0",
@@ -39,7 +40,6 @@
 	},
 	"devDependencies": {
 		"@coral-xyz/anchor": "^0.30.1",
-		"@solana/web3.js": "^1.93.1",
 		"@types/chai": "^4.3.16",
 		"@types/fs-extra": "^11.0.4",
 		"@types/mocha": "^10.0.7",

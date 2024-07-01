@@ -13,7 +13,8 @@
 		"build": "tsc -p ./ts/src/tsconfig.json"
 	},
 	"dependencies": {
-		"@coral-xyz/anchor": "^0.30.0"
+		"@coral-xyz/anchor": "^0.29.0",
+		"rpc-websockets": "7.11.0"
 	},
 	"devDependencies": {
 		"@types/bn.js": "^5.1.0",
