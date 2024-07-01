@@ -4,7 +4,7 @@ import { before } from "mocha"
 import { sleep } from "./helpers"
 import { assert } from "chai"
 
-describe("ido", () => {
+describe("demo_program", () => {
 	const provider = anchor.AnchorProvider.env()
 
 	//@ts-ignore: you should remove this comment
