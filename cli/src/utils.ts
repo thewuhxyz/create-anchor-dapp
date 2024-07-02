@@ -47,6 +47,7 @@ export const programCommand = [
 	"build",
 	"close",
 	"deploy",
+	"extend",
 	"recover",
 	"redeploy",
 	"test",

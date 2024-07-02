@@ -13,6 +13,7 @@ import {
 import * as p from "@clack/prompts"
 import { scaffold } from "./configure"
 import ora from "ora"
+import { App } from "./types"
 
 async function main() {
 	program
@@ -52,13 +53,13 @@ async function main() {
 				}),
 			ui: () =>
 				p.select({
-					message: `🖥️ UI?`,
+					message: `🖥️ UI? (default: none)`,
 					options: [
-						{ value: "none", label: "None (for now 😭)" },
-						// { value: "react", label: "React" },
-						// { value: "nextjs", label: "Next.JS" },
+						{ value: "none", label: "None" },
+						{ value: "react", label: "React" },
+						{ value: "nextjs", label: "NextJS" },
 					],
-					initialValue: "none",
+					initialValue: "none" as App,
 				}),
 			pkg: () =>
 				p.select({
