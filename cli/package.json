@@ -1,8 +1,12 @@
 {
-	"name": "@caapp/create-anchor-app",
-	"version": "0.0.1",
+	"name": "create-anchor-app",
+	"version": "0.0.0",
 	"license": "MIT",
-	"repository": "thewuhxyz/create-anchor-app",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/thewuhxyz.create-anchor-app.git",
+		"directory": "cli"
+	},
 	"homepage": "https://github.com/thewuhxyz/create-anchor-app",
 	"description": "Scaffold for building apps on Solana with Anchor framework",
 	"main": "dist/bin/index.js",
@@ -13,8 +17,8 @@
 		"start": "pnpm build && node dist/bin/index.js  --help",
 		"clean": "rm -rf dist",
 		"bin:link": "pnpm link --global",
-		"bin:unlink": "pnpm uninstall --global @caapp/create-anchor-app",
-		"check": "tsc",
+		"bin:unlink": "pnpm uninstall --global create-anchor-app",
+		"lint": "tsc",
 		"watch": "pnpm clean && tsup --watch"
 	},
 	"bin": {
@@ -26,6 +30,14 @@
 		"README.md",
 		"package.json"
 	],
+	"keywords": [
+		"create-anchor-app",
+		"anchor",
+		"solana"
+	],
+	"engines": {
+		"node": ">=18"
+	},
 	"dependencies": {
 		"@clack/prompts": "^0.7.0",
 		"@commander-js/extra-typings": "^12.1.0",
