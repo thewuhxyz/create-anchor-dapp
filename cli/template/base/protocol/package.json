@@ -12,10 +12,7 @@
 		"anchor-run": "anchor run",
 		"build": "tsc -p ./ts/src/tsconfig.json"
 	},
-	"dependencies": {
-		"@coral-xyz/anchor": "^0.29.0",
-		"rpc-websockets": "7.11.0"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@types/bn.js": "^5.1.0",
 		"@types/chai": "^4.3.0",

@@ -1,12 +1,14 @@
-export function nextJsPageTsxTemplate({projectName}: {projectName:string}) {
+export function nextJsPageTsxTemplate({
+	projectName,
+	isAnchorVersionGtePoint30,
+}: {
+	projectName: string
+	isAnchorVersionGtePoint30: boolean
+}) {
 	return `
 "use client"
 
-import {
-	COUNTER_SEEDS,
-	DEMO_PROGRAM_ID,
-	DemoProgramIDL,
-} from "@${projectName}/protocol"
+import { COUNTER_SEEDS, DEMO_PROGRAM_ID, ${isAnchorVersionGtePoint30 ? `DemoProgram, DemoProgramIDLJson,` : `DemoProgramIDL,`}} from "@${projectName}/protocol"
 import * as anchor from "@coral-xyz/anchor"
 import {
 	useQuery,
@@ -212,7 +214,7 @@ function useProgram() {
 
 	const provider = new anchor.AnchorProvider(connection, wallet(), {})
 
-	return new anchor.Program(DemoProgramIDL, DEMO_PROGRAM_ID, provider)
+	return new ${anchorProgram({ isAnchorVersionGtePoint30 })}
 }
 
 function counterPda(authority: anchor.web3.PublicKey): anchor.web3.PublicKey {
@@ -223,4 +225,14 @@ function counterPda(authority: anchor.web3.PublicKey): anchor.web3.PublicKey {
 }
 
   `
+}
+
+function anchorProgram({
+	isAnchorVersionGtePoint30,
+}: {
+	isAnchorVersionGtePoint30: boolean
+}) {
+	return isAnchorVersionGtePoint30
+		? "anchor.Program(DemoProgramIDLJson as DemoProgram, provider)"
+		: "anchor.Program(DemoProgramIDL, DEMO_PROGRAM_ID, provider)"
 }

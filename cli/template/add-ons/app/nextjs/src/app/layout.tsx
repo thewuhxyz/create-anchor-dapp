@@ -7,8 +7,8 @@ import Link from "next/link"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-	title: "Yoiu Launchpad",
-	description: "Yoiu Lauchpad on Solana",
+	title: "Create Anchor App",
+	description: "Create Anchor App",
 }
 
 export default function RootLayout({

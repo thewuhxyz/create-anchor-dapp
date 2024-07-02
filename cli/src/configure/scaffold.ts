@@ -13,7 +13,7 @@ export async function scaffold(config: ProjectConfig) {
 	copyBaseTemplate({ projectDir })
 	configureRoot({ pkg, name, projectDir })
 	configureProtocol({ anchorVersion, name, projectDir, solanaVersion })
-	configureApp({ name, projectDir, ui })
+	configureApp({ name, projectDir, ui, pkg, anchorVersion })
 
 	install && (await installDependencies({ projectDir, pkg }))
 }
