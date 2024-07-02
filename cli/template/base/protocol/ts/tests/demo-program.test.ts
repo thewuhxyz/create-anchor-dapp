@@ -7,7 +7,6 @@ import { assert } from "chai"
 describe("demo_program", () => {
 	const provider = anchor.AnchorProvider.env()
 
-	//@ts-ignore: you should remove this comment
 	const program = anchor.workspace.DemoProgram as anchor.Program<DemoProgram>
 
 	const user = anchor.web3.Keypair.generate()
@@ -48,7 +47,6 @@ describe("demo_program", () => {
 
 		await sleep(3)
 
-		//@ts-ignore: you should remove this comment
 		const counter = await program.account.counter.fetch(counterPda)
 
 		console.log("👉 counter:", JSON.parse(JSON.stringify(counter)))
@@ -84,7 +82,6 @@ describe("demo_program", () => {
 
 		await sleep(3)
 
-		//@ts-ignore: you should remove this comment
 		const counter = await program.account.counter.fetch(counterPda)
 
 		console.log("👉 counter:", JSON.parse(JSON.stringify(counter)))

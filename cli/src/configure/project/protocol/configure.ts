@@ -3,49 +3,38 @@ import fs from "fs-extra"
 import sortPackageJson from "sort-package-json"
 import { type PackageJson } from "type-fest"
 import { parse, stringify } from "smol-toml"
-import {
-	execCommand,
-	getPkgManagerVersion,
-	packageName,
-	programCommand,
-} from "../utils"
+import { packageName } from "../../../utils"
 import semverGte from "semver/functions/gte.js"
-import { PackageManager } from "../types"
+import { librsTemplate } from "./template/lib-rs"
+import { Keypair } from "@solana/web3.js"
 
-export function configureRootPackageJson(opt: {
+export function configureProtocol(opt: {
 	projectDir: string
 	name: string
-	pkg: PackageManager
+	solanaVersion: string
+	anchorVersion: string
 }) {
-	const { name, projectDir, pkg } = opt
+	const { name, projectDir, solanaVersion, anchorVersion } = opt
+	const program = Keypair.generate()
+	const programId = program.publicKey.toBase58()
+	const keypairJson = JSON.stringify(Array.from(program.secretKey))
 
-	const pkgJsonPath = path.join(projectDir, "package.json")
-
-	const pkgJson = fs.readJSONSync(pkgJsonPath) as PackageJson
-
-	pkgJson.name = name
-
-	if (pkgJson.scripts) {
-		programCommand.map((command) => {
-			pkgJson.scripts![`program:${command}`] =
-				`${execCommand[pkg]} just ${command}`
-		})
-	}
-
-	if (pkg !== "pnpm") {
-		pkgJson.workspaces = ["app", "protocol"]
-	}
-
-	pkgJson.packageManager = getPkgManagerVersion(pkg)
-
-	const sortedPkgJson = sortPackageJson(pkgJson)
-
-	fs.writeJSONSync(pkgJsonPath, sortedPkgJson, {
-		spaces: 2,
+	configureProtocolPackageJson({ name, projectDir })
+	configureProtocolAnchorTomlAtRoot({
+		projectDir,
+		anchorVersion,
+		programId,
+		solanaVersion,
 	})
+	configureProtocolCargoToml({
+		projectDir,
+		anchorVersion,
+	})
+	configureLibrs({ programId, projectDir })
+	copyProgramKeypairJsonToFile({ projectDir, keypairJson })
 }
 
-export function configureProtocolPackageJson(opt: {
+function configureProtocolPackageJson(opt: {
 	projectDir: string
 	name: string
 }) {
@@ -66,7 +55,7 @@ export function configureProtocolPackageJson(opt: {
 	})
 }
 
-export function configureRootAnchorToml(opts: {
+function configureProtocolAnchorTomlAtRoot(opts: {
 	projectDir: string
 	solanaVersion: string
 	anchorVersion: string
@@ -88,7 +77,7 @@ export function configureRootAnchorToml(opts: {
 	fs.writeFileSync(anchorTomlPath, stringify(anchorToml))
 }
 
-export function configureProtocolCargoToml(opts: {
+function configureProtocolCargoToml(opts: {
 	projectDir: string
 	anchorVersion: string
 }) {
@@ -113,56 +102,8 @@ export function configureProtocolCargoToml(opts: {
 	fs.writeFileSync(cargoTomlPath, stringify(programCargoToml))
 }
 
-export function addPnpmWorkspace(opts: {
-	projectDir: string
-	addonsDir: string
-	pkg: PackageManager
-}) {
-	const { pkg, projectDir, addonsDir } = opts
-	if (pkg === "pnpm") {
-		const src = path.join(addonsDir, "package-manager/pnpm-workspace.yaml")
-		const dest = path.join(projectDir, "pnpm-workspace.yaml")
-		fs.copyFileSync(src, dest)
-	}
-}
-
-export function copyBaseTemplate(opt: { baseDir: string; projectDir: string }) {
-	const { projectDir, baseDir } = opt
-	fs.copySync(baseDir, projectDir)
-}
-
-export function configureLibrs(opts: {
-	projectDir: string
-	programId: string
-}) {
+function configureLibrs(opts: { projectDir: string; programId: string }) {
 	const { projectDir, programId } = opts
-
-	const rs = `
-pub mod constants;
-pub mod error;
-pub mod instructions;
-pub mod state;
-
-use anchor_lang::prelude::*;
-use instructions::*;
-
-declare_id!("${programId}");
-
-#[program]
-pub mod demo_program {
-
-    use super::*;
-
-    pub fn create_counter(ctx: Context<CreateCounter>) -> Result<()> {
-        instructions::create_counter(ctx)
-    }
-
-    pub fn increment_count(ctx: Context<IncrementCount>) -> Result<()> {
-        instructions::increment_count(ctx)
-    }
-}
-
-	`
 
 	const librsPath = path.join(
 		projectDir,
@@ -172,10 +113,10 @@ pub mod demo_program {
 
 	const dir = path.dirname(librsPath)
 	fs.mkdirSync(dir, { recursive: true })
-	fs.writeFileSync(librsPath, rs, "utf8")
+	fs.writeFileSync(librsPath, librsTemplate({ programId }), "utf8")
 }
 
-export function copyProgramKeypairJsonToFile(opts: {
+function copyProgramKeypairJsonToFile(opts: {
 	projectDir: string
 	keypairJson: string
 }) {
