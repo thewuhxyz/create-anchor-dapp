@@ -1,20 +1,31 @@
 {
-  "name": "caapp",
-  "private": true,
-  "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "watch": "turbo watch",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "prettier": "^3.2.5",
-    "turbo": "^1.13.4",
-    "typescript": "^5.4.5"
-  },
-  "packageManager": "pnpm@9.3.0",
-  "engines": {
-    "node": ">=18"
-  }
+	"name": "caapp",
+	"description": "Scaffold a monorepo for building Solana apps with the Anchor Framework",
+	"author": "Chizor Iwuh <thisischizor@gmail.com> (https://dev.thewuh.xyz)",
+	"keywords": [
+		"create-anchor-app",
+		"anchor",
+		"solana"
+	],
+	"scripts": {
+		"build": "turbo build",
+		"dev": "turbo dev",
+		"watch": "turbo watch",
+		"lint": "turbo lint",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "build:cli": "pnpm --filter=create-anchor-app build ",
+		"changeset": "changeset",
+		"version-packages": "changeset version",
+		"release": "pnpm build:cli && changeset publish"
+	},
+	"devDependencies": {
+		"@changesets/cli": "^2.27.7",
+		"prettier": "^3.2.5",
+		"turbo": "^1.13.4",
+		"typescript": "^5.4.5"
+	},
+	"packageManager": "pnpm@9.3.0",
+	"engines": {
+		"node": ">=18"
+	}
 }
