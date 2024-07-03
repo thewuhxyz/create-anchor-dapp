@@ -1,5 +1,5 @@
 {
-	"name": "caapp",
+	"name": "cadapp",
 	"description": "Scaffold a monorepo for building Solana apps with the Anchor Framework",
 	"author": "Chizor Iwuh <thisischizor@gmail.com> (https://dev.thewuh.xyz)",
 	"keywords": [
@@ -13,7 +13,7 @@
 		"watch": "turbo watch",
 		"lint": "turbo lint",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "build:cli": "pnpm --filter=create-anchor-app build ",
+    "build:cli": "pnpm --filter=create-anchor-dapp build ",
 		"changeset": "changeset",
 		"version-packages": "changeset version",
 		"release": "pnpm build:cli && changeset publish"

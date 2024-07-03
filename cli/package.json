@@ -1,13 +1,13 @@
 {
-	"name": "create-anchor-app",
-	"version": "0.1.0",
+	"name": "create-anchor-dapp",
+	"version": "0.0.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/thewuhxyz/create-anchor-app.git",
+		"url": "https://github.com/thewuhxyz/create-anchor-dapp.git",
 		"directory": "cli"
 	},
-	"homepage": "https://github.com/thewuhxyz/create-anchor-app",
+	"homepage": "https://github.com/thewuhxyz/create-anchor-dapp",
 	"description": "Scaffold for building apps on Solana with Anchor framework",
 	"main": "dist/bin/index.js",
 	"type": "module",
@@ -17,12 +17,12 @@
 		"start": "pnpm build && node dist/bin/index.js  --help",
 		"clean": "rm -rf dist",
 		"bin:link": "pnpm link --global",
-		"bin:unlink": "pnpm uninstall --global create-anchor-app",
+		"bin:unlink": "pnpm uninstall --global create-anchor-dapp",
 		"lint": "tsc",
 		"watch": "pnpm clean && tsup --watch"
 	},
 	"bin": {
-		"create-anchor-app": "dist/bin/index.js"
+		"create-anchor-dapp": "dist/bin/index.js"
 	},
 	"files": [
 		"dist",
@@ -31,6 +31,7 @@
 		"package.json"
 	],
 	"keywords": [
+		"create-anchor-dapp",
 		"create-anchor-app",
 		"anchor",
 		"solana"
