@@ -21,13 +21,9 @@ pub struct CreateCounter<'info> {
 }
 
 pub fn create_counter(ctx: Context<CreateCounter>) -> Result<()> {
-    let counter = ctx.accounts.counter.key();
-    let authority = ctx.accounts.authority.key();
-    let bump = ctx.bumps.counter;
-    ctx.accounts.counter.init(
-        counter, 
-        authority, 
-        bump
-    );
+    ctx.accounts.counter.pubkey = ctx.accounts.counter.key();
+    ctx.accounts.counter.authority = ctx.accounts.authority.key();
+    ctx.accounts.counter.bump = ctx.bumps.counter;
+    ctx.accounts.counter.count = 0;
     Ok(())
 }

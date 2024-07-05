@@ -17,6 +17,6 @@ pub struct IncrementCount<'info> {
 }
 
 pub fn increment_count(ctx: Context<IncrementCount>) -> Result<()> {
-    ctx.accounts.counter.increment_count();
+    ctx.accounts.counter.count += 1;
     Ok(())
 }

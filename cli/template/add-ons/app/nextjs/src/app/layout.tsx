@@ -7,8 +7,8 @@ import Link from "next/link"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-	title: "Create Anchor App",
-	description: "Create Anchor App",
+	title: "Create Anchor dApp",
+	description: "Create Anchor dApp",
 }
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
 						<header className="mx-auto flex w-full max-w-3xl justify-between py-4 pb-16">
 							<Link href="/">
 								<p className="text-3xl cursor-default">
-									CAAPP <span className="text-sm">next.js</span>
+									CAdAPP <span className="text-sm">next.js</span>
 								</p>
 							</Link>
 							<WalletButton />

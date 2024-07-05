@@ -32,7 +32,7 @@ import {
 export default function App() {
 	return (
 		<main className="flex flex-col min-h-screen items-center justify-center space-y-16">
-			<h1 className="text-3xl font-bold">Create Anchor App - Vanilla React</h1>
+			<h1 className="text-3xl font-bold">Create Anchor dApp - Vanilla React</h1>
 			<Counter />
 			<WalletMultiButton />
 			<div className="flex items-center justify-center space-x-2">
