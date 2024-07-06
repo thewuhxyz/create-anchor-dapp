@@ -1,5 +1,5 @@
 import { execaSync } from "execa"
-import { PackageManager } from "./types"
+import { PackageExec, PackageManager } from "./types"
 
 export function getInstalledSolanaVersion() {
 	const { stdout } = execaSync`solana --version`
@@ -33,10 +33,10 @@ export function getPkgManagerVersion(pkg: PackageManager) {
 	return `${pkg}@${version}`
 }
 
-export const execCommand: Record<PackageManager, string> = {
+export const execCommand: Record<PackageManager, PackageExec> = {
 	npm: "npx",
-	yarn: "yarn exec",
-	pnpm: "pnpm exec",
+	yarn: "yarn",
+	pnpm: "pnpx",
 }
 
 export function packageName(root: string, workspace: string) {
@@ -44,9 +44,13 @@ export function packageName(root: string, workspace: string) {
 }
 
 export const programCommand = [
+	"anchor",
 	"build",
+	"build-all",
 	"close",
+	"copy-idl",
 	"deploy",
+	"deploy-all",
 	"extend",
 	"recover",
 	"redeploy",

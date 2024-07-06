@@ -1,16 +1,14 @@
 {
 	"name": "@name/protocol",
 	"version": "0.1.0",
-	"module": "dist/esm/index.js",
-	"source": "./ts/src/index.ts",
-	"types": "dist/esm/index.d.ts",
 	"exports": {
-		".": "./dist/esm/index.js"
+		".": "./dist/index.js"
 	},
+	"module": "dist/index.js",
+	"source": "./src/index.ts",
+	"types": "dist/index.d.ts",
 	"scripts": {
-		"anchor-test": "anchor test --skip-build --skip-deploy --skip-local-validator",
-		"anchor-run": "anchor run",
-		"build": "tsc -p ./ts/src/tsconfig.json"
+		"build": "tsc"
 	},
 	"dependencies": {},
 	"devDependencies": {

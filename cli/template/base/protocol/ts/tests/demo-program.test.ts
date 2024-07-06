@@ -1,6 +1,5 @@
 import * as anchor from "@coral-xyz/anchor"
 import { DemoProgram, COUNTER_SEEDS } from "../src"
-import { before } from "mocha"
 import { sleep } from "./helpers"
 import { assert } from "chai"
 

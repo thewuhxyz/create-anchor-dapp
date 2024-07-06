@@ -11,7 +11,7 @@ export async function scaffold(config: ProjectConfig) {
 	const projectDir = path.resolve(process.cwd(), name)
 
 	copyBaseTemplate({ projectDir })
-	configureRoot({ pkg, name, projectDir })
+	configureRoot({ pkg, name, projectDir, ui })
 	configureProtocol({ anchorVersion, name, projectDir, solanaVersion })
 	configureApp({ name, projectDir, ui, pkg, anchorVersion })
 

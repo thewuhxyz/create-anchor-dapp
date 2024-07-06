@@ -37,6 +37,7 @@ export default function Home() {
 			<div className="flex items-center justify-center space-x-2">
 				<p className="">Counter app. Courtesy of </p>
 				<a
+					target="_blank"
 					href="https://twitter.com/_thewuh"
 					className="hover:underline text-muted-foreground"
 				>
@@ -77,7 +78,7 @@ function CounterButton() {
 
 	const buttonText = publicKey
 		? counter
-			? "+1"
+			? "+ 1"
 			: "create counter"
 		: "wallet not connected"
 
