@@ -1,3 +1,16 @@
-# CLI
+# Create Anchor dApp
 
-CLI Repo
+CLI application for generating a [Turborepo](https://turbo.build/repo/) starter monorepo for building Solana dApps with the [Anchor Framework](https://anchor-lang.com/),
+
+## Usage
+Start by running:
+```sh
+npx create-anchor-dapp
+```
+
+### Apps Available for Usage
+- [x] Vanilla React
+- [x] NextJS(App Router)
+- [ ] NextJS (Page Router)
+- [ ] Vanilla Svelte
+- [ ] SvelteKit

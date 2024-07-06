@@ -14,6 +14,8 @@
 		"lint": "turbo lint",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "build:cli": "pnpm --filter=create-anchor-dapp build ",
+    "dev:cli": "pnpm --filter=create-anchor-dapp dev ",
+    "start:cli": "pnpm --filter=create-anchor-dapp start ",
 		"changeset": "changeset",
 		"version-packages": "changeset version",
 		"release": "pnpm build:cli && changeset publish"
