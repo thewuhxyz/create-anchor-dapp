@@ -91,7 +91,7 @@ async function main() {
 
 	await scaffold(config)
 
-	ora(`Anchor app created! Kipp Buidling 🫡`).succeed()
+	ora(`Anchor dApp created! Kipp Buidling 🫡`).succeed()
 }
 
 main()
