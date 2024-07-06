@@ -1,17 +1,29 @@
+anchor *args:
+    anchor {{args}}
+
 build program:
     anchor build -p {{program}}
+    just copy-idl
+
+build-all:
+    anchor build
+    just copy-idl
 
 deploy program:
     just build {{program}}
     anchor deploy -p {{program}}
-    cp -v ./target/idl/{{program}}.json ./protocol/ts/src/idl/{{program}}.json
-    cp -v ./target/types/{{program}}.ts ./protocol/ts/src/idl/{{program}}.ts
+    just copy-idl
+
+deploy-all:
+    anchor build
+    anchor deploy
+    just copy-idl
 
 test program:
-    pnpm -dir=$(pwd)/protocol anchor-run {{program}}
+    anchor run {{program}}
 
 test-all:
-    pnpm -dir=$(pwd)/protocol anchor-test
+    anchor test --skip-build --skip-deploy --skip-local-validator
 
 recover program:
     solana-keygen recover -o ./target/deploy/intermediate-deploy-{{program}}.json -f
@@ -24,3 +36,7 @@ extend program amount:
 
 close program:
     solana program close -k ~/.config/solana/deployer.json ./target/deploy/intermediate-deploy-{{program}}.json
+	
+copy-idl:
+    cp -v ./target/idl/* ./protocol/ts/src/idl
+    cp -v ./target/types/* ./protocol/ts/src/idl

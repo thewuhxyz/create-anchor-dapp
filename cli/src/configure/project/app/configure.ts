@@ -63,6 +63,9 @@ function configureAppPackageJson(opt: {
 
 	pkgJson.name = `@${name}/app`
 
+	pkgJson.scripts!["shadcn:add"] =
+		`${pkg === "pnpm" ? "pnpx" : "npx"} shadcn-ui@latest add`
+
 	pkgJson.dependencies![`@${name}/protocol`] =
 		pkg === "pnpm" ? "workspace:*" : "*"
 

@@ -32,11 +32,12 @@ import {
 export default function Home() {
 	return (
 		<main className="flex-1 flex flex-col items-center justify-center space-y-16">
-			<h1 className="text-3xl font-bold">Create Anchor App - Next.JS</h1>
+			<h1 className="text-3xl font-bold">Create Anchor dApp - Next.JS</h1>
 			<Counter />
 			<div className="flex items-center justify-center space-x-2">
 				<p className="">Counter app. Courtesy of </p>
 				<a
+					target="_blank"
 					href="https://twitter.com/_thewuh"
 					className="hover:underline text-muted-foreground"
 				>
@@ -77,7 +78,7 @@ function CounterButton() {
 
 	const buttonText = publicKey
 		? counter
-			? "+1"
+			? "+ 1"
 			: "create counter"
 		: "wallet not connected"
 

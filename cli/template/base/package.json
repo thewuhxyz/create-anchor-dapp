@@ -6,11 +6,13 @@
 		"dev": "turbo dev",
 		"start": "turbo start",
 		"lint": "turbo lint",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\""
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"anchor": "just anchor"
 	},
 	"devDependencies": {
 		"just-install": "2.0.1",
 		"prettier": "^3.2.5",
+		"ts-mocha": "^10.0.0",
 		"turbo": "^1.13.2"
 	},
 	"resolutions": {

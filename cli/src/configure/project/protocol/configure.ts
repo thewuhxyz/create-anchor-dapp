@@ -45,11 +45,11 @@ function configureProtocolPackageJson(opt: {
 	name: string
 	isAnchorVersionGtePoint30: boolean
 }) {
-	const { name, projectDir,isAnchorVersionGtePoint30 } = opt
+	const { name, projectDir, isAnchorVersionGtePoint30 } = opt
 
 	const workspace = "protocol"
 
-	const pkgJsonPath = path.join(projectDir, workspace, "package.json")
+	const pkgJsonPath = path.join(projectDir, workspace, "ts", "package.json")
 
 	const pkgJson = fs.readJSONSync(pkgJsonPath) as PackageJson
 

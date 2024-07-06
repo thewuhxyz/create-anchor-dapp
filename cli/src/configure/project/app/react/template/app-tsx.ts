@@ -32,12 +32,13 @@ import {
 export default function App() {
 	return (
 		<main className="flex flex-col min-h-screen items-center justify-center space-y-16">
-			<h1 className="text-3xl font-bold">Create Anchor App - Vanilla React</h1>
+			<h1 className="text-3xl font-bold">Create Anchor dApp - Vanilla React</h1>
 			<Counter />
 			<WalletMultiButton />
 			<div className="flex items-center justify-center space-x-2">
 				<p className="">Counter app. Courtesy of </p>
 				<a
+					target="_blank"
 					href="https://twitter.com/_thewuh"
 					className="hover:underline text-muted-foreground"
 				>
@@ -78,7 +79,7 @@ function CounterButton() {
 
 	const buttonText = publicKey
 		? counter
-			? "+1"
+			? "+ 1"
 			: "create counter"
 		: "wallet not connected"
 

@@ -13,7 +13,9 @@
 			"cache": false,
 			"persistent": true
 		},
-		"anchor-test": {},
-		"anchor-run": {}
+		"start": {
+			"dependsOn": ["^build"]
+		},
+		"shadcn-add": {}
 	}
 }

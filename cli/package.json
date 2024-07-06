@@ -13,8 +13,8 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsup",
-		"dev": "node dist/bin/index.js",
-		"start": "pnpm build && node dist/bin/index.js  --help",
+		"dev": "pnpm build && node dist/bin/index.js",
+		"start": "node dist/bin/index.js",
 		"clean": "rm -rf dist",
 		"bin:link": "pnpm link --global",
 		"bin:unlink": "pnpm uninstall --global create-anchor-dapp",

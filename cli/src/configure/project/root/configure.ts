@@ -2,23 +2,20 @@ import path from "path"
 import fs from "fs-extra"
 import sortPackageJson from "sort-package-json"
 import { type PackageJson } from "type-fest"
-import {
-	execCommand,
-	getPkgManagerVersion,
-	programCommand,
-} from "../../../utils"
-import { PackageManager } from "../../../types"
+import { getPkgManagerVersion, programCommand } from "../../../utils"
+import { App, PackageManager } from "../../../types"
 import { ADDONS_TEMP_PATH } from "cli/src/constants"
 
 export function configureRoot(opt: {
 	projectDir: string
 	name: string
 	pkg: PackageManager
+	ui: App
 }) {
-	const { pkg, name, projectDir } = opt
+	const { pkg, name, projectDir, ui } = opt
 	const addonsDir = ADDONS_TEMP_PATH
 
-	configureRootPackageJson({ projectDir, name, pkg })
+	configureRootPackageJson({ projectDir, name, pkg, ui })
 	configureRootPnpmWorkspace({ addonsDir, pkg, projectDir })
 }
 
@@ -26,8 +23,9 @@ function configureRootPackageJson(opt: {
 	projectDir: string
 	name: string
 	pkg: PackageManager
+	ui: App
 }) {
-	const { name, projectDir, pkg } = opt
+	const { name, projectDir, pkg, ui } = opt
 
 	const pkgJsonPath = path.join(projectDir, "package.json")
 
@@ -36,14 +34,24 @@ function configureRootPackageJson(opt: {
 	pkgJson.name = name
 
 	if (pkgJson.scripts) {
+		const execScript = pkg === "npm" ? `${pkg} run` : pkg
+
+		pkgJson.scripts["build:protocol"] = 'turbo build --filter=protocol'
+
+		if (ui !== "none") {
+			pkgJson.scripts["build:app"] = 'turbo build --filter=app'
+			pkgJson.scripts["dev:app"] = 'turbo dev --filter=app'
+			pkgJson.scripts["shadcn:add"] = `cd app && ${execScript} shadcn:add`
+		}
+
 		programCommand.map((command) => {
-			pkgJson.scripts![`program:${command}`] =
-				`${execCommand[pkg]} just ${command}`
+			pkgJson.scripts![command === "anchor" ? command : `program:${command}`] =
+				`just ${command}`
 		})
 	}
 
 	if (pkg !== "pnpm") {
-		pkgJson.workspaces = ["app", "protocol"]
+		pkgJson.workspaces = ["app", "protocol/ts"]
 	}
 
 	pkgJson.packageManager = getPkgManagerVersion(pkg)
