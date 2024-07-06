@@ -1,5 +1,15 @@
 # create-anchor-app
 
+## 0.1.1
+
+### Patch Changes
+
+- 6c1fb0e: Add CLI docs
+- de09677: Add new utiiliy scripts to template
+- fba8ed5: Refactor Counter example
+- de09677: Change template folder structure
+- 486ff5b: Update Template Readme to include mini doc
+
 ## 0.1.0
 
 ### Minor Changes
