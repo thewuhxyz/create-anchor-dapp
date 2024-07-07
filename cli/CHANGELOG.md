@@ -1,5 +1,11 @@
 # create-anchor-app
 
+## 0.1.2
+
+### Patch Changes
+
+- 6bf2532: Make scaffold to latest stable rust version
+
 ## 0.1.1
 
 ### Patch Changes
