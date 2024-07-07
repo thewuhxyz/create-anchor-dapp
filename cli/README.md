@@ -7,6 +7,14 @@ Start by running:
 ```sh
 npx create-anchor-dapp
 ```
+or 
+```sh
+pnpx create-anchor-dapp
+```
+or 
+```sh
+yarn dlx create-anchor-dapp
+```
 
 ### Apps Available for Usage
 - [x] Vanilla React
